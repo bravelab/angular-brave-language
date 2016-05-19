@@ -3,36 +3,24 @@
 
   angular
     .module('ngBraveLanguage')
-    .factory('Language', function ($http, $log, APP_CONFIG) {
+    .factory('Language', function ($http, $log, languageConfig) {
 
       function getLanguage(key, callback) {
-
-        $http.get(APP_CONFIG.apiRootUrl + '/langs/' + key + '.json').success(function (data) {
-
+        $http.get(languageConfig.apiUrl + '/languages/' + key).success(function (data) {
           callback(data);
-
         }).error(function () {
-
           $log.log('Error');
           callback([]);
-
         });
-
       }
 
       function getLanguages(callback) {
-
-        $http.get(APP_CONFIG.apiRootUrl + '/languages.json').success(function (data) {
-
+        $http.get(languageConfig.apiUrl + '/languages').success(function (data) {
           callback(data);
-
         }).error(function () {
-
           $log.log('Error');
           callback([]);
-
         });
-
       }
 
       return {
@@ -45,6 +33,5 @@
       };
 
     });
-
 
 }());

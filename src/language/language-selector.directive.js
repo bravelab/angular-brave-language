@@ -3,11 +3,13 @@
 
   angular
     .module('ngBraveLanguage')
-    .directive('languageSelector', function (Language) {
+    .directive('languageSelector', function (languageConfig) {
       return {
         restrict: 'EA',
         replace: true,
-        templateUrl: 'bower_components/angular-brave-language/src/language/language-selector.tpl.html', // TODO
+        templateUrl: function() {
+          return languageConfig.templates.directives.languageSelector;
+        },
         scope: true
       };
     });

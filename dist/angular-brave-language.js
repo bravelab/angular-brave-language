@@ -17,13 +17,31 @@
 
   angular
     .module('ngBraveLanguage')
-    .directive('languageSelector', function (Language) {
+    .directive('languageSelector', function (languageConfig) {
       return {
         restrict: 'EA',
         replace: true,
-        templateUrl: 'bower_components/angular-brave-language/src/language/language-selector.tpl.html', // TODO
+        templateUrl: function() {
+          return languageConfig.templates.directives.languageSelector;
+        },
         scope: true
       };
+    });
+
+}());
+
+(function() {
+  'use strict';
+
+  angular
+    .module('ngBraveLanguage')
+    .constant('languageConfig', {
+      apiUrl: '/api',
+      templates: {
+        directives: {
+          languageSelector: 'bower_components/angular-brave-language/src/language/language-selector.tpl.html'
+        }
+      }
     });
 
 }());
@@ -70,36 +88,24 @@
 
   angular
     .module('ngBraveLanguage')
-    .factory('Language', function ($http, $log, APP_CONFIG) {
+    .factory('Language', function ($http, $log, languageConfig) {
 
       function getLanguage(key, callback) {
-
-        $http.get(APP_CONFIG.apiRootUrl + '/langs/' + key + '.json').success(function (data) {
-
+        $http.get(languageConfig.apiUrl + '/languages/' + key).success(function (data) {
           callback(data);
-
         }).error(function () {
-
           $log.log('Error');
           callback([]);
-
         });
-
       }
 
       function getLanguages(callback) {
-
-        $http.get(APP_CONFIG.apiRootUrl + '/languages.json').success(function (data) {
-
+        $http.get(languageConfig.apiUrl + '/languages').success(function (data) {
           callback(data);
-
         }).error(function () {
-
           $log.log('Error');
           callback([]);
-
         });
-
       }
 
       return {
@@ -112,6 +118,5 @@
       };
 
     });
-
 
 }());
