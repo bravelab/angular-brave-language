@@ -56,11 +56,11 @@
 
       Language.getLanguages(function (response) {
         if (angular.isUndefined($sessionStorage.currentLanguage)) {
-          for (var i=0; i<response.length; i++) {
-            if (response[i].key === $translate.use()) {
-              $rootScope.currentLanguage = response[i];
+          angular.forEach(response, function (obj) {
+            if (obj.key === $translate.use()) {
+              $rootScope.currentLanguage = obj;
             }
-          }
+          });
         } else {
           $rootScope.currentLanguage = $sessionStorage.currentLanguage;
         }
