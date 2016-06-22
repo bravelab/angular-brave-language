@@ -55,7 +55,6 @@
       $rootScope.lang = {};
 
       Language.getLanguages(function (response) {
-
         if (angular.isUndefined($sessionStorage.currentLanguage)) {
           for (var i=0; i<response.length; i++) {
             if (response[i].key === $translate.use()) {
@@ -65,6 +64,8 @@
         } else {
           $rootScope.currentLanguage = $sessionStorage.currentLanguage;
         }
+
+        $rootScope.languages = response;
 
         Language.getLang(response[0].key, function (data) {
           $rootScope.lang = data;
