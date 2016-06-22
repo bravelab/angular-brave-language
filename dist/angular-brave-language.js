@@ -51,12 +51,12 @@
 
   angular
     .module('ngBraveLanguage')
-    .controller('LanguagesCtrl', function LanguagesCtrl($scope, $rootScope, $log, Language) {
+    .controller('LanguagesCtrl', function LanguagesCtrl($scope, $translate, $rootScope, $sessionStorage, $log, $state, Language) {
 
       $rootScope.lang = {};
 
       Language.getLanguages(function (response) {
-        $rootScope.currentLanguage = response[0];
+        $rootScope.currentLanguage = $sessionStorage.currentLanguage;
         $rootScope.languages = response;
         Language.getLang(response[0].key, function (data) {
           $rootScope.lang = data;
@@ -65,11 +65,11 @@
       });
 
       $scope.selectLanguage = function (language) {
-        $rootScope.currentLanguage = language;
-
+        $sessionStorage.currentLanguage = language;
         Language.getLang(language.key, function (data) {
           $rootScope.lang = data;
         });
+        window.location.reload(true);
       };
 
       $rootScope.getWord = function (key) {
