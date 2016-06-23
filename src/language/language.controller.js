@@ -3,7 +3,7 @@
 
   angular
     .module('ngBraveLanguage')
-    .controller('LanguagesCtrl', function LanguagesCtrl($scope, $translate, $rootScope, $sessionStorage, $log, $state, Language) {
+    .controller('LanguagesCtrl', function LanguagesCtrl($scope, $translate, $rootScope, $sessionStorage, $log, $state, Language, appConfig, toastr) {
       $rootScope.lang = {};
 
       Language.getLanguages(function (response) {
@@ -26,11 +26,19 @@
       });
 
       $scope.selectLanguage = function (language) {
-        $sessionStorage.currentLanguage = language;
-        Language.getLang(language.key, function (data) {
-          $rootScope.lang = data;
+        var avaliable = false;
+
+        // Check if chosen translation is avaliable
+        angular.forEach(appConfig.i18n.availableLanguageKeys, function (value, key) {
+          value === language.key ? avaliable = true : null;
         });
-        window.location.reload(true);
+
+        if (avaliable) {
+          $sessionStorage.currentLanguage = language;
+          window.location.reload(true);
+        } else {
+          toastr.warning('Translation not avaliable!');
+        }
       };
 
       $rootScope.getWord = function (key) {
