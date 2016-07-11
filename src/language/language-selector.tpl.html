@@ -1,8 +1,8 @@
-<ul class="header-dropdown-list hidden-xs ng-cloak" ng-controller="LanguagesCtrl">
+<ul class="header-dropdown-list ng-cloak" ng-controller="LanguagesCtrl">
   <li class="dropdown" dropdown>
     <a class="dropdown-toggle" data-toggle="dropdown" href> <img src="styles/img/blank.gif"
                                                                  class="flag flag-{{ currentLanguage.key }}"
-                                                                 alt="{{ currentLanguage.alt | translate }}"> <span> {{ currentLanguage.title | translate }} </span>
+                                                                 alt="{{ currentLanguage.alt | translate }}"> <span class="hidden-xs"> {{ currentLanguage.title | translate }} </span>
       <i class="fa fa-angle-down"></i> </a>
     <ul class="dropdown-menu pull-right">
       <li ng-class="{ active: language==currentLanguage }" ng-repeat="language in languages">
