@@ -8,7 +8,7 @@
    */
   angular
     .module('ngBraveLanguage', [])
-    .value('version', '0.0.7');
+    .value('version', '0.0.8');
 
 })();
 
@@ -54,9 +54,15 @@
     .controller('LanguagesCtrl', function LanguagesCtrl($scope, $translate, $rootScope, $sessionStorage, $log, $state, Language, appConfig, toastr) {
       $rootScope.lang = {};
 
+      function transformResponse(response) {
+        return response.data;
+      }
+
       Language.getLanguages(function (response) {
+        var data = transformResponse(response);
+
         if (angular.isUndefined($sessionStorage.currentLanguage)) {
-          angular.forEach(response, function (obj) {
+          angular.forEach(data, function (obj) {
             if (obj.key === $translate.use()) {
               $rootScope.currentLanguage = obj;
             }
@@ -65,11 +71,7 @@
           $rootScope.currentLanguage = $sessionStorage.currentLanguage;
         }
 
-        $rootScope.languages = response;
-
-        Language.getLang(response[0].key, function (data) {
-          $rootScope.lang = data;
-        });
+        $rootScope.languages = data;
 
       });
 
@@ -107,15 +109,6 @@
     .module('ngBraveLanguage')
     .factory('Language', function ($http, $log, languageConfig) {
 
-      function getLanguage(key, callback) {
-        $http.get(languageConfig.apiUrl + '/languages/' + key).success(function (data) {
-          callback(data);
-        }).error(function () {
-          $log.log('Error');
-          callback([]);
-        });
-      }
-
       function getLanguages(callback) {
         $http.get(languageConfig.apiUrl + '/languages').success(function (data) {
           callback(data);
@@ -126,9 +119,6 @@
       }
 
       return {
-        getLang: function (type, callback) {
-          getLanguage(type, callback);
-        },
         getLanguages: function (callback) {
           getLanguages(callback);
         }

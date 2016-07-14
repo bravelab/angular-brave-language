@@ -6,9 +6,15 @@
     .controller('LanguagesCtrl', function LanguagesCtrl($scope, $translate, $rootScope, $sessionStorage, $log, $state, Language, appConfig, toastr) {
       $rootScope.lang = {};
 
+      function transformResponse(response) {
+        return response.data;
+      }
+
       Language.getLanguages(function (response) {
+        var data = transformResponse(response);
+
         if (angular.isUndefined($sessionStorage.currentLanguage)) {
-          angular.forEach(response, function (obj) {
+          angular.forEach(data, function (obj) {
             if (obj.key === $translate.use()) {
               $rootScope.currentLanguage = obj;
             }
@@ -17,11 +23,7 @@
           $rootScope.currentLanguage = $sessionStorage.currentLanguage;
         }
 
-        $rootScope.languages = response;
-
-        Language.getLang(response[0].key, function (data) {
-          $rootScope.lang = data;
-        });
+        $rootScope.languages = data;
 
       });
 
