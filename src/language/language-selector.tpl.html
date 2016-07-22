@@ -1,14 +1,26 @@
-<ul class="header-dropdown-list ng-cloak" ng-controller="LanguagesCtrl">
-  <li class="dropdown" dropdown>
-    <a class="dropdown-toggle" data-toggle="dropdown" href> <img src="styles/img/blank.gif"
-                                                                 class="flag flag-{{ currentLanguage.key }}"
-                                                                 alt="{{ currentLanguage.alt | translate }}"> <span class="hidden-xs"> {{ currentLanguage.title | translate }} </span>
-      <i class="fa fa-angle-down"></i> </a>
-    <ul class="dropdown-menu pull-right">
-      <li ng-class="{ active: language==currentLanguage }" ng-repeat="language in languages">
-        <a ng-click="selectLanguage(language)"><img src="styles/img/blank.gif" class="flag flag-{{ language.key }}"
-                                                    alt="{{ language.alt | translate }}"> {{ language.title | translate }}</a>
-      </li>
-    </ul>
-  </li>
-</ul>
+<div ng-controller="LanguagesCtrl" class="pull-right">
+  <div ng-repeat="language in availableLanguages" class="btn-header transparent pull-right">
+    <span>
+      <a class="dropdown-toggle"
+         data-toggle="dropdown"
+         title="{{ language.title | translate }}"
+         ng-click="selectLanguage(language)"
+         href
+         ng-class=" language.key == currentLanguage.key ? 'active' : ''">
+        <img src="styles/img/blank.gif" class="flag flag-{{ language.key }}" alt="{{ language.alt | translate }}">
+      </a>
+    </span>
+  </div>
+  <!--<li class="dropdown" dropdown>-->
+  <!--<a class="dropdown-toggle" data-toggle="dropdown" href> <img src="styles/img/blank.gif"-->
+  <!--class="flag flag-{{ currentLanguage.key }}"-->
+  <!--alt="{{ currentLanguage.alt | translate }}"> <span class="hidden-xs"> {{ currentLanguage.title | translate }} </span>-->
+  <!--&lt;!&ndash;<i class="fa fa-angle-down"></i> </a>&ndash;&gt;-->
+  <!--<ul class="dropdown-menu pull-right">-->
+  <!--<li ng-class="{ active: language==currentLanguage }" ng-repeat="language in languages">-->
+  <!--<a ng-click="selectLanguage(language)"><img src="styles/img/blank.gif" class="flag flag-{{ language.key }}"-->
+  <!--alt="{{ language.alt | translate }}"> {{ language.title | translate }}</a>-->
+  <!--</li>-->
+  <!--</ul>-->
+  <!--</li>-->
+</div>

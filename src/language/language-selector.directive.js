@@ -3,7 +3,7 @@
 
   angular
     .module('ngBraveLanguage')
-    .directive('languageSelector', function (languageConfig) {
+    .directive('languageSelector', function (languageConfig, appConfig) {
       return {
         restrict: 'EA',
         replace: true,
